@@ -10,6 +10,9 @@
 # We do so to test the effect of human arrival 
 # on an island communities 
 ###################################################
+# Valuable internet source: 
+# https://www.davidzeleny.net/anadat-r/doku.php/en:ordination
+
 
 ###################################################
 # Loading the data #
