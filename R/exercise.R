@@ -30,7 +30,8 @@ head(species)
 # of any species with time.
 
 #######################
-## YOUR SOLUTION HERE #
+# one solution:
+plot(Poaceae ~ age,type="b",data=species,xlab="Age BP")
 #######################
 
 # OPTIONAL, but nice: 
@@ -42,9 +43,13 @@ head(species)
 # install.packages("analogue")
 # library(analogue)
 # Stratiplot()
-###################################################
-###################################################
+analogue::Stratiplot(species, age)
 
+# only for most abundant species: 
+analogue::Stratiplot(species[,colSums(species)>0.5], age)
+
+###################################################
+###################################################
 
 
 ###################################################
@@ -104,6 +109,8 @@ text(ord, display = "species", cex=0.7, col="blue")
 CA1<-ord$CA$u[,1] # coordinates of first axis
 CA2<-ord$CA$u[,2] # coordinates of second axis
 
+
+# Plot adding the ages
 plot(ord, type = "n")  # make empty plot
 points(ord, display = "sites", cex = 0.8, pch=21, col="red", bg="yellow",type="b")
 text(x=CA1+0.1,y=CA2+0.1, cex=0.7,labels=age, col="blue")
@@ -118,7 +125,11 @@ text(x=CA1+0.1,y=CA2+0.1, cex=0.7,labels=age, col="blue")
 # Make the plot nice!
 
 #######################
-## YOUR SOLUTION HERE #
+## one solution:
+plot(CA1~age,type="b") # 
+# or nicer:
+plot(CA1~age,xlim=c(4500,1000),type="b",pch=21, col="red", bg="yellow",xlab="Age BP") # 
+abline(v=2300,col="black") # add human arrival time at 2300 BP
 #######################
 
 ###################################################
@@ -161,16 +172,13 @@ dist
 # Ordination 2: Non-metric multidimensional scaling #
 #####################################################
 nmds<-metaMDS(dist,  trace = TRUE) # runs the NMDS
-plot(nmds)
 
 nmds$points # extract coordinates
 
+# NMDS 2D figure:
 plot(nmds, type = "n")
 points(nmds, display = "sites", cex = 0.8, pch=21, col="red", bg="yellow",type="b")
-text(nmds, display = "species", cex=0.7, col="blue")
-
-plot(nmds$points[,1]~age,xlim=c(4500,1000),type="b",pch=21, col="red", bg="yellow")
-abline(v=2000,col="black")
+text(nmds, labels = age, cex=0.7, col="blue")
 #####################################################
 
 #####################################################
@@ -193,9 +201,49 @@ rect.hclust(tree, 5, border="red") # cut the tree forming 5 classes
 
 
 #######################
-## YOUR SOLUTION HERE #
-#######################
+## one solution:
+plot(CA1~age,col=cutree(tree,k=2))
+abline(v=2000,col="black")
+########
+# nicer: 
+plot(CA1~age,xlim=c(4500,1000),type="b",pch=21, bg=cutree(tree,k=2),xlab="Age BP",ylab="Orination axis 1 [system state]")
+abline(v=2000,col="black")
+#
+# or as ggplot:
+library(tidyverse)
+  data_to_plot <- 
+    tibble(
+      system_state = CA1,
+      age = age,
+      group = as.factor(cutree(tree, 2))
+      ) 
+  data_to_plot %>% 
+    ggplot2::ggplot(
+      aes(
+        y = system_state,
+        x = age
+      )
+    ) +
+    geom_line(
+      col = "grey50",
+      linewidth = 0.1
+    ) + 
+    geom_point(
+      aes(col = group),
+      size = 3
+    ) +
+    theme_classic() +
+    scale_x_continuous(transform = "reverse") +
+    labs(
+      x = "Age (cal yr BP)",
+      y = "system state",
+      col = "Groups",
+      title = "tidyverse is superior!",
+      subtitle = "look how better this is"
+    ) + 
+    scale_color_viridis_d()  
 
+#######################
 
 ##################################################################
 # OPTIONAL: Now select and load a core from neotoma as shown by 
