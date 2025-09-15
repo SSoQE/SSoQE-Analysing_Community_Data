@@ -1,5 +1,6 @@
 ###################################################
-# September 26th 2024
+# September 15th 2025
+# by Manuel
 # Code from github.com/orgs/SSoQE
 # 
 # Aim:
@@ -18,7 +19,7 @@
 # Loading the data #
 library(here)
 # We start loading the pollen core of our focal island (Tenerife)
-dat<-read.csv2(here("Data", "Tenerife.csv")) # to be adapted
+dat<-read.csv2(here("Data", "Tenerife.csv")) 
 age<-dat$age # sample ages
 species<-dat[,2:ncol(dat)] # pollen "species" (taxa)
 rm(dat)
@@ -31,12 +32,12 @@ head(species)
 ###################################################
 # Explore the data by plotting the pollen counts 
 # of any species with time.
+#######################
+# your solution:
+
+
 
 #######################
-# one solution:
-plot(Poaceae ~ age,type="b",data=species,xlab="Age BP")
-#######################
-
 # OPTIONAL, but nice: 
 # Use a stratigraphic plot to get a better overview over
 # all species and their temporal patterns.
@@ -46,10 +47,8 @@ plot(Poaceae ~ age,type="b",data=species,xlab="Age BP")
 # install.packages("analogue")
 # library(analogue)
 # Stratiplot()
-analogue::Stratiplot(species, age)
+#######################
 
-# only for most abundant species: 
-analogue::Stratiplot(species[,colSums(species)>0.5], age)
 
 ###################################################
 ###################################################
@@ -120,7 +119,7 @@ text(x=CA1+0.1,y=CA2+0.1, cex=0.7,labels=age, col="blue")
 
 ###################################################
 # MAIN GOAL:
-# Now, we want to visualise how species composition on Tenerife 
+# Now, we want to visualize how species composition on Tenerife 
 # has changes with time. To do so, plot the strongest gradient 
 # in species composition (first axis) against time.
 # Humans arrived at the island about 2300 years ago. Indicate this 
@@ -128,11 +127,10 @@ text(x=CA1+0.1,y=CA2+0.1, cex=0.7,labels=age, col="blue")
 # Make the plot nice!
 
 #######################
-## one solution:
-plot(CA1~age,type="b") # 
-# or nicer:
-plot(CA1~age,xlim=c(4500,1000),type="b",pch=21, col="red", bg="yellow",xlab="Age BP") # 
-abline(v=2300,col="black") # add human arrival time at 2300 BP
+## your solution:
+
+
+
 #######################
 
 ###################################################
@@ -174,7 +172,7 @@ dist
 #####################################################
 # Ordination 2: Non-metric multidimensional scaling #
 #####################################################
-nmds<-metaMDS(dist,  trace = TRUE) # runs the NMDS
+nmds<-vegan::metaMDS(dist,  trace = TRUE) # runs the NMDS
 
 nmds$points # extract coordinates
 
@@ -199,52 +197,14 @@ rect.hclust(tree, 5, border="red") # cut the tree forming 5 classes
 
 # FINALLY: Use the function cutree to extract the class for each 
 # layer in our core. Add that information to the plot displaying the
-# first ordination axis againet time by changing the point colour
-# accoring to the classification result e.g. col=cutree(tree,k=2)
+# first ordination axis against time by changing the point color
+# according to the classification result e.g. col=cutree(tree,k=2)
 
 
 #######################
-## one solution:
-plot(CA1~age,col=cutree(tree,k=2))
-abline(v=2000,col="black")
-########
-# nicer: 
-plot(CA1~age,xlim=c(4500,1000),type="b",pch=21, bg=cutree(tree,k=2),xlab="Age BP",ylab="Orination axis 1 [system state]")
-abline(v=2000,col="black")
-#
-# or as ggplot:
-library(tidyverse)
-  data_to_plot <- 
-    tibble(
-      system_state = CA1,
-      age = age,
-      group = as.factor(cutree(tree, 2))
-      ) 
-  data_to_plot %>% 
-    ggplot2::ggplot(
-      aes(
-        y = system_state,
-        x = age
-      )
-    ) +
-    geom_line(
-      col = "grey50",
-      linewidth = 0.1
-    ) + 
-    geom_point(
-      aes(col = group),
-      size = 3
-    ) +
-    theme_classic() +
-    scale_x_continuous(transform = "reverse") +
-    labs(
-      x = "Age (cal yr BP)",
-      y = "system state",
-      col = "Groups",
-      title = "tidyverse is superior!",
-      subtitle = "look how better this is"
-    ) + 
-    scale_color_viridis_d()  
+## your solution:
+
+
 
 #######################
 
