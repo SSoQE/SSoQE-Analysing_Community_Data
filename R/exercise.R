@@ -73,7 +73,7 @@ head(species)
 # more information for later: browseVignettes("vegan")
 
 # Now lets run the Correspondence analysis (CA)
-# Please take time to look at the visualisation and 
+# Please take time to look at the visualization and 
 # discuss what it shows (and what not)
 ord<-vegan::cca(species)
 plot(ord)
@@ -88,7 +88,7 @@ summary(ord)
 # of the different axes. The first axis always explains more than 
 # consecutive ones. 
 
-# Function screeplot() allows you to visualise the eigenvalues. 
+# Function screeplot() allows you to visualize the eigenvalues. 
 # It shows how the importance of a single axis declines and 
 # may help to decide how many axes you would like to look at.
 
@@ -145,8 +145,9 @@ text(x=CA1+0.1,y=CA2+0.1, cex=0.7,labels=age, col="blue")
 ###################################################
 
 # OPTIONAL, but nice: 
-# There is a second island data set available. Explore how pollen
-# community composition has changed on that island. 
+# There is a second island data set available. First, check 
+# where it is. Then Explore how pollencommunity composition
+# has changed on that island. 
 
 #############
 # STOP HERE #
@@ -214,6 +215,6 @@ rect.hclust(tree, 5, border="red") # cut the tree forming 5 classes
 #  in species composition with time. And check if a major war 
 # (like the 30 years war in Europe), the plague or any other possible
 # driver is visible in pollen composition of the landscape.
-# Find a way to test/visualise the effect accross 1000 cores
-# and write the paper.
+# Find a way to test/visualize the effect across 1000 cores
+# and write the paper up for GEB or Ecography.
 ##################################################################
