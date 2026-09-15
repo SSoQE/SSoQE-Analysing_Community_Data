@@ -1,5 +1,5 @@
 ###################################################
-# September 26th 2024
+# September 15th 2026
 # Code from github.com/orgs/SSoQE
 # 
 # Aim:
@@ -184,42 +184,16 @@ points(nmds, display = "sites", cex = 0.8, pch=21, col="red", bg="yellow",type="
 text(nmds, labels = age, cex=0.7, col="blue")
 #####################################################
 
-#####################################################
-# Cluster analysis #
-#####################################################
-# Function hclust is one way to run a classification, 
-# allowing various different methods (see help). There are
-# multiple other packages with alternatives.
-tree<-hclust(dist,method = "complete") # classification 
-plot(tree)
-rect.hclust(tree, 5, border="red") # cut the tree forming 5 classes
-# You decide on the method and the number of classes
-# Please try 2-3 different methods to see the sensitivity
 
-
-# FINALLY: Use the function cutree to extract the class for each 
-# layer in our core. Add that information to the plot displaying the
-# first ordination axis againet time by changing the point colour
-# accoring to the classification result e.g. col=cutree(tree,k=2)
-
-
-#######################
-## one solution:
-plot(CA1~age,col=cutree(tree,k=2))
-abline(v=2000,col="black")
 ########
-# nicer: 
-plot(CA1~age,xlim=c(4500,1000),type="b",pch=21, bg=cutree(tree,k=2),xlab="Age BP",ylab="Orination axis 1 [system state]")
-abline(v=2000,col="black")
-#
 # or as ggplot:
+# install.packages("tidyverse")
 library(tidyverse)
   data_to_plot <- 
     tibble(
       system_state = CA1,
-      age = age,
-      group = as.factor(cutree(tree, 2))
-      ) 
+      age = age)
+       
   data_to_plot %>% 
     ggplot2::ggplot(
       aes(
@@ -232,7 +206,7 @@ library(tidyverse)
       linewidth = 0.1
     ) + 
     geom_point(
-      aes(col = group),
+      aes(col = 1),
       size = 3
     ) +
     theme_classic() +
@@ -240,11 +214,8 @@ library(tidyverse)
     labs(
       x = "Age (cal yr BP)",
       y = "system state",
-      col = "Groups",
-      title = "tidyverse is superior!",
-      subtitle = "look how better this is"
-    ) + 
-    scale_color_viridis_d()  
+      col = 1
+    )
 
 #######################
 

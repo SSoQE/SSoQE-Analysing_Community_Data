@@ -1,5 +1,5 @@
 ###################################################
-# September 15th 2025
+# September 15th 2026
 # by Manuel
 # Code from github.com/orgs/SSoQE
 # 
@@ -182,32 +182,6 @@ plot(nmds, type = "n")
 points(nmds, display = "sites", cex = 0.8, pch=21, col="red", bg="yellow",type="b")
 text(nmds, labels = age, cex=0.7, col="blue")
 #####################################################
-
-#####################################################
-# Cluster analysis #
-#####################################################
-# Function hclust is one way to run a classification, 
-# allowing various different methods (see help). There are
-# multiple other packages with alternatives.
-tree<-hclust(dist,method = "complete") # classification 
-plot(tree)
-rect.hclust(tree, 5, border="red") # cut the tree forming 5 classes
-# You decide on the method and the number of classes
-# Please try 2-3 different methods to see the sensitivity
-
-
-# FINALLY: Use the function cutree to extract the class for each 
-# layer in our core. Add that information to the plot displaying the
-# first ordination axis against time by changing the point color
-# according to the classification result e.g. col=cutree(tree,k=2)
-
-
-#######################
-## your solution:
-
-
-
-#######################
 
 ##################################################################
 # OPTIONAL: Now select and load a core from neotoma as shown by 
